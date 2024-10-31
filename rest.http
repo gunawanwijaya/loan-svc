@@ -1,0 +1,81 @@
+### proposed
+
+POST http://0.0.0.0:8080/loan HTTP/1.1
+content-type: application/json
+
+{
+    "proposed": {
+        "borrower_id": "MTIz",
+        "principal": {
+            "iso4217": "IDR",
+            "amount": 50000000.00,
+            "details": "yea",
+            "time": "2024-10-30T18:00:00Z"
+        }
+    }
+}
+
+###
+
+### approved
+POST http://0.0.0.0:8080/loan HTTP/1.1
+content-type: application/json
+
+{
+    "approved": {
+        "loan_id": "ZyPTVD8e6tQFFGUr",
+        "approved_document": "http://google.com",
+        "field_officer_id": "Nzc3"
+    }
+}
+
+###
+
+### invested
+POST http://0.0.0.0:8080/loan HTTP/1.1
+content-type: application/json
+
+{
+    "invested": {
+        "loan_id": "ZyPTVD8e6tQFFGUr",
+        "lenders":[{
+            "lender_id": "MTExMQ==",
+            "payment": {
+                "iso4217": "IDR",
+                "amount":30000000.00,
+                "details": "yea 1111",
+                "time": "2024-10-30T18:00:00Z"
+            }
+        },{
+            "lender_id": "MTExMg==",
+            "payment": {
+                "iso4217": "IDR",
+                "amount":30000000.00,
+                "details": "yea 1112",
+                "time": "2024-10-30T18:00:00Z"
+            }
+        }]
+    }
+}
+
+###
+
+### disbursed
+POST http://0.0.0.0:8080/loan HTTP/1.1
+content-type: application/json
+
+{
+    "disbursed": {
+        "loan_id": "ZyPTVD8e6tQFFGUr",
+        "borrower_contract": "http://google.com",
+        "disbursement_officer_id": "Nzc3"
+    }
+}
+
+###
+
+### view
+GET http://0.0.0.0:8080/loan/ZyPTVD8e6tQFFGUr HTTP/1.1
+content-type: application/json
+
+###

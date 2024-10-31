@@ -1,0 +1,7 @@
+feature:
+  loan:
+    lender_interest_rate: .07       # 07% of principal
+    interest_rate: .10              # 10% of principal
+    service_fee: .05                # 05% of principal
+    num_of_monthly_installment: 12  # 12x monthly installment
+    min_rate_of_investment: .05     # 05% of principal
