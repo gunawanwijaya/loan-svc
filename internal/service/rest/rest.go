@@ -70,11 +70,11 @@ func (x *rest) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		req := loan.ViewRequest{}
 		id, kind := r.PathValue("id"), "loan"
-		if r, ok := strings.CutPrefix(id, "lender/"); ok && r != id {
-			id, kind = r, "lender"
-		} else if r, ok := strings.CutPrefix(id, "borrower/"); ok && r != id {
-			id, kind = r, "borrower"
-		}
+		// if r, ok := strings.CutPrefix(id, "lender/"); ok && r != id {
+		// 	id, kind = r, "lender"
+		// } else if r, ok := strings.CutPrefix(id, "borrower/"); ok && r != id {
+		// 	id, kind = r, "borrower"
+		// }
 
 		if ids := strings.Split(id, ","); len(ids) == 1 {
 			switch kind {
@@ -134,21 +134,4 @@ type obj = map[string]any
 
 var (
 	mwcors MW = cors.Default().Handler
-	// mw1    MW = func(next http.Handler) http.Handler {
-	// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-	// 		ctx := r.Context()
-	// 		log := pkg.Context.SlogLogger(ctx)
-	// 		log.DebugContext(ctx, "1st MW")
-	// 		next.ServeHTTP(w, r)
-	// 	})
-	// }
-	// mw2 MW = func(next http.Handler) http.Handler {
-	// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-	// 		ctx := r.Context()
-	// 		log := pkg.Context.SlogLogger(ctx)
-	// 		log.DebugContext(ctx, "2nd MW")
-	// 		// next.ServeHTTP(w, r)
-	// 		_ = next
-	// 	})
-	// }
 )

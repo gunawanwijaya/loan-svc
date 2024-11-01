@@ -1,3 +1,4 @@
+//go:generate mockgen -destination datastore_mock.go -package datastore . Datastore
 package datastore
 
 import (
@@ -26,8 +27,6 @@ type Dependency struct {
 type Datastore interface {
 	Query(ctx context.Context, req QueryRequest) (res QueryResponse, err error)
 	Mutation(ctx context.Context, req MutationRequest) (res MutationResponse, err error)
-	// View(ctx context.Context, req ViewRequest) (res ViewResponse, err error)
-	// Upsert(ctx context.Context, req UpsertRequest) (res UpsertResponse, err error)
 }
 
 func New(ctx context.Context, cfg Configuration, dep Dependency) (_ Datastore, err error) {

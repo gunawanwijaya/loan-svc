@@ -1,10 +1,4 @@
-// Package loan implements the lifecycle of a loan
-//
-//	View(ctx, [{ LoanID, BorrowerID, LenderID }]) -> Result, Error
-//
-// View would return a list of loans on the system
-//
-//	Upsert(ctx, [{ LoanID }]) -> Result, Error
+//go:generate mockgen -destination loan_mock.go -package loan . Loan
 package loan
 
 import (

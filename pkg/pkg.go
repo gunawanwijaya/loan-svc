@@ -79,3 +79,4 @@ func (x *callstack) Register(callback func()) {
 
 func BtoA(p []byte) string { return base64.StdEncoding.EncodeToString(p) }
 func AtoB(s string) []byte { p, _ := base64.StdEncoding.DecodeString(s); return p }
+func Ptr[T any](v T) *T    { return &v }

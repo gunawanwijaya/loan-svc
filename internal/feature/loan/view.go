@@ -44,11 +44,15 @@ func (x *loan) View(ctx context.Context, req ViewRequest) (res ViewResponse, err
 		return
 	}
 
+	if len(qry.List) < 1 {
+		qry.List = append(qry.List, qry)
+	}
+
 	l := len(qry.List)
 	res.List = make([]ViewResponse, l, l)
-	for _, qry := range qry.List {
-		res.LoanID = qry.Loans.Loan.LoanID
-		res.LoanState = qry.Loans.Loan.LoanState.String()
+	for i, qry := range qry.List {
+		res.List[i].LoanID = qry.Loans.Loan.LoanID
+		res.List[i].LoanState = qry.Loans.Loan.LoanState.String()
 		for _, party := range qry.Loans.Loan.Parties {
 			switch party.LoanPartyRoleAs {
 			case datastore.RoleAsBorrower:
@@ -62,8 +66,8 @@ func (x *loan) View(ctx context.Context, req ViewRequest) (res ViewResponse, err
 						Time:    time.Unix(payment.Time, 0),
 					}
 				}
-				res.BorrowerID = party.UserID
-				res.ExpectedPayments = payments
+				res.List[i].BorrowerID = party.UserID
+				res.List[i].ExpectedPayments = payments
 			case datastore.RoleAsLender:
 				l := len(party.Payments)
 				payments := make([]*pkg.Money, l, l)
@@ -75,7 +79,7 @@ func (x *loan) View(ctx context.Context, req ViewRequest) (res ViewResponse, err
 						Time:    time.Unix(payment.Time, 0),
 					}
 				}
-				res.Lenders = append(res.Lenders, struct {
+				res.List[i].Lenders = append(res.List[i].Lenders, struct {
 					LenderID []byte       "json:\"lender_id,omitempty\""
 					Payments []*pkg.Money "json:\"payments,omitempty\""
 				}{
@@ -84,6 +88,10 @@ func (x *loan) View(ctx context.Context, req ViewRequest) (res ViewResponse, err
 				})
 			}
 		}
+	}
+
+	if len(res.List) == 1 {
+		res = res.List[0]
 	}
 
 	log.DebugContext(ctx, "feature/loan.View",
